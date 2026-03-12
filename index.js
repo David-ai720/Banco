@@ -145,7 +145,26 @@ app.put("/Bancos/:id/personas", (req, res) => {
 
 });
 
+app.delete('/Bancos/:id/personas/:personaid', async (req, res) => {
+  try {
+    const { id, personaId } = req.params;
+    
+
+    const resultado = await Persona.deleteOne({ _id: personaid, id: id });
+
+    if (resultado.deletedCount === 0) {
+      return res.status(404).json({ mensaje: 'Persona o banco no encontrado' });
+    }
+
+    res.json({ mensaje: 'Persona eliminada exitosamente del banco' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 app.listen(3000, () =>{
     console.log("Servidor en marcha em http://localhost:3000");
 
 })
+
